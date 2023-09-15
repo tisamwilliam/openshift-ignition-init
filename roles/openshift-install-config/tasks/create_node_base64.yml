@@ -1,0 +1,14 @@
+---
+
+- name: Creates node base64 folder
+  file:
+    path: /root/node-ignition/base64
+    state: directory
+    recurse: yes
+
+- name: Convert ignition to base64
+  shell: cat /root/node-ignition/ignition/{{ hostvars[item]["inventory_hostname_short"] }}.ign | base64 -w0 > /root/node-ignition/base64/{{ hostvars[item]["inventory_hostname_short"] }}.base64
+  with_items: 
+    - "{{ groups['bootstrap_group'] }}"
+    - "{{ groups['master_group'] }}"
+    - "{{ groups['worker_group'] }}"

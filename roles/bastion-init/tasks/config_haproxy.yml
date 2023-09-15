@@ -1,0 +1,26 @@
+---
+
+- name: Install haproxy
+  yum:
+    name: haproxy
+    state: latest
+
+- name: Config haproxy
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+
+- name: Restart and enable haproxy
+  service:
+    name: haproxy
+    state: restarted
+    enabled: yes
+
+- name: Check haproxys tatus
+  command: systemctl status haproxy
+  register: result
+  ignore_errors: true
+
+- name: Show reoport
+  debug:
+    var: result

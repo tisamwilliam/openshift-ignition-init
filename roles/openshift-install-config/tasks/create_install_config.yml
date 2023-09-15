@@ -1,0 +1,36 @@
+---
+
+- name: Creates ocp-data folder
+  file:
+    path: /root/ocp-data
+    state: directory
+
+- name: Get SSh key from bastion
+  slurp:
+    src: /root/.ssh/id_rsa.pub
+  register: ssh_pub_key
+
+- name: Set SSH key variable
+  set_fact:
+    ssh_key: "{{ ssh_pub_key['content'] | b64decode }}"
+
+- name: Config offline install-config.yaml
+  template:
+    src: offline-install-config.yaml.j2
+    dest: /root/ocp-data/install-config.yaml
+  when: cluster_network_conenct == "offline"
+
+- name: Config online install-config.yaml
+  template:
+    src: online-install-config.yaml.j2
+    dest: /root/ocp-data/install-config.yaml
+  when: cluster_network_conenct == "online"
+
+- name: Backup install_config.yaml
+  copy: 
+    src: /root/ocp-data/install-config.yaml 
+    dest: /root/install_config.yaml.backup
+    remote_src: yes
+
+- name: Set KUBECONIFG env variable
+  shell: "echo 'export KUBECONFIG=/root/ocp-data/auth/kubeconfig' >> /root/.bashrc; source /root/.bashrc"

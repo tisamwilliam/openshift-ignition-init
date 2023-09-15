@@ -1,0 +1,29 @@
+---
+
+- name: Config nameserver
+  include_tasks: config_nameserver.yml
+
+- name: Config bastion hostname
+  hostname:
+    name: "bastion.ocp.{{ domain_name }}.com"
+
+- name: Stop and disable firewalld
+  service:
+    name: "firewalld"
+    state: stopped
+    enabled: false
+
+- name: Config selinux to permissive mode
+  ansible.posix.selinux:
+    policy: targeted
+    state: permissive
+
+- name: Install and config haproxy
+  include_tasks: config_haproxy.yml
+
+- name: Install and config httpd
+  include_tasks: config_httpd.yml
+
+- name: Reboot host and wait for it to restart
+  reboot:
+    msg: "Reboot initiated by Ansible"

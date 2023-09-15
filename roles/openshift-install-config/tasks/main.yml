@@ -1,0 +1,46 @@
+---
+
+- name: Install oc and kubectl command tool - set variable
+  set_fact: 
+    need_decompress: true
+    download_url: "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz"
+
+- name: Install oc and kubectl command tool
+  include_tasks: install_from_web.yml
+
+- name: Generate SSH ssh-key
+  include_tasks: generate_ssh_key.yml
+
+- name: Check dns and ip
+  include_tasks: check_ip.yml
+    
+- name: Install openshift-installer - set variable
+  set_fact: 
+    need_decompress: true
+    download_url: "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/{{ openshift_version }}/openshift-install-linux-{{ openshift_version }}.tar.gz"
+
+- name: Install openshift-installer
+  include_tasks: install_from_web.yml
+
+- name: Create install_config.yaml
+  include_tasks: create_install_config.yml
+
+- name: Install butane - set variable
+  set_fact: 
+    need_decompress: false
+    download_url: "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/butane/v0.16.0-1/butane"
+
+- name: Install butane - set variable
+  include_tasks: install_from_web.yml
+
+- name: Create manifests and ignition.yml
+  include_tasks: create_role_ignition.yml
+
+- name: Create node bu file(ignition yaml format)
+  include_tasks: create_node_bu.yml
+
+- name: Create node ignition
+  include_tasks: create_node_ignition.yml
+
+- name: Show ignition as base64
+  include_tasks: create_node_base64.yml

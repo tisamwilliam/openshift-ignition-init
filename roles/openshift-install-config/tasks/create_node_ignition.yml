@@ -1,0 +1,16 @@
+---
+
+- name: Creates node ignition folder
+  file:
+    path: /root/node-ignition/ignition
+    state: directory
+    recurse: yes
+
+- name: Convert bu file to ignition
+  shell: butane --pretty --strict {{ hostvars[item]['inventory_hostname_short'] }}.bu > /root/node-ignition/ignition/{{ hostvars[item]['inventory_hostname_short'] }}.ign
+  args:
+    chdir: /root/node-ignition/bu
+  with_items: 
+    - "{{ groups['bootstrap_group'] }}"
+    - "{{ groups['master_group'] }}"
+    - "{{ groups['worker_group'] }}"

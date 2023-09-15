@@ -1,0 +1,10 @@
+---   
+
+- name: Check if ssh key exist
+  stat:
+    path: /root/.ssh/id_rsa.pub
+  register: file_status
+
+- name: Create ssh-key 
+  command: ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa
+  when: not file_status.stat.exists

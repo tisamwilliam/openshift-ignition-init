@@ -1,0 +1,21 @@
+---
+
+- hosts: bastion
+  user: root
+  gather_facts: no
+  tasks:
+    - name: Check if ssh key exist
+      stat:
+        path: /root/.ssh/id_rsa.pub
+      register: file_status
+      delegate_to: 127.0.0.1
+
+    - name: Create ssh-key 
+      command: ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa
+      when: not file_status.stat.exists
+      delegate_to: 127.0.0.1 
+
+    - name: SSH copy
+      authorized_key: 
+        user: root 
+        key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"

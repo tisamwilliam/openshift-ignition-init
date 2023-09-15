@@ -1,0 +1,26 @@
+---
+
+- name: Download command file
+  get_url:
+    url: "{{ download_url }}"
+    dest: /tmp
+  register: command_file
+
+- name: Split archive filename
+  set_fact:
+    download_filename: "{{ download_url.split('/')[-1] }}"
+
+- name: Unarchive archive file
+  unarchive:
+    src: "/tmp/{{ download_filename }}"
+    dest: /usr/local/bin
+    copy: no
+  when: need_decompress
+
+- name: Copy file to bin
+  copy:
+    src: "/tmp/{{ download_filename }}"
+    dest: /usr/local/bin
+    remote_src: yes
+    mode: 0750
+  when: not need_decompress

@@ -1,0 +1,70 @@
+
+# Bastion
+###########################################
+dns_bastion_group:
+  children:
+    bastion_group: 
+    dns_api_group:
+  vars:
+    bastion_node: 10.250.75.139
+    ansible_user: root
+
+bastion_group:
+  hosts:
+    bastion: 
+      ansible_host: "{{ bastion_node }}"
+
+dns_api_group:
+  hosts: 
+    api:
+      ansible_host: "{{ bastion_node }}"
+    api-int:
+      ansible_host: "{{ bastion_node }}"
+
+
+# Bootstrap
+###########################################
+bootstrap_group:
+  hosts:
+    bootstrap:
+      ansible_host: 10.250.135.26
+
+
+# Master
+###########################################
+dns_master_group:
+  children:
+    master_group:
+    dns_etcd_group:
+  vars:
+    master_node0: 10.250.135.21
+    master_node1: 10.250.135.22
+    master_node2: 10.250.135.23
+
+master_group:
+  hosts:
+    master0:
+      ansible_host: "{{ master_node0 }}"
+    master1:
+      ansible_host: "{{ master_node1 }}"
+    master2:
+      ansible_host: "{{ master_node2 }}"
+
+dns_etcd_group:
+  hosts: 
+    etcd-0:
+      ansible_host: "{{ master_node0 }}"
+    etcd-1:
+      ansible_host: "{{ master_node1 }}"
+    etcd-2:
+      ansible_host: "{{ master_node2 }}"
+
+
+# Worker
+###########################################
+worker_group:
+  hosts:
+    compute0:
+      ansible_host: 10.250.135.24
+    compute1:
+      ansible_host: 10.250.135.25

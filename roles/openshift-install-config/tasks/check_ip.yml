@@ -1,0 +1,32 @@
+---
+
+- name: Get ansible python interpreter
+  shell: ansible --version | grep 'python version'| grep -oE '/[^)]+'
+  register: ansible_python_interpreter
+  delegate_to: 127.0.0.1
+
+- name: Get get-pip.py
+  get_url:
+    url: https://bootstrap.pypa.io/pip/3.6/get-pip.py
+    dest: /tmp/get-pip.py
+  delegate_to: 127.0.0.1
+  
+- name: Install pip
+  command: "{{ ansible_python_interpreter.stdout }} /tmp/get-pip.py"
+  delegate_to: 127.0.0.1
+
+- name: Install dnspython
+  command: "{{ ansible_python_interpreter.stdout }} -m pip install dnspython"
+  delegate_to: 127.0.0.1
+
+- name: Check bastion anb node dns setting
+  ansible.builtin.debug:
+    msg: 
+      - "{{ hostvars[item]['inventory_hostname_short'] }}.ocp.{{ domain_name }}.com IP: {{ hostvars[item]['ansible_host']}}, DNS record: {{ lookup('community.general.dig', hostvars[item]['inventory_hostname_short']+'.ocp.{{ domain_name }}.com' , '@{{ dns_server }}') }} "
+  failed_when:
+    - hostvars[item]['ansible_host'] not in lookup('community.general.dig', hostvars[item]['inventory_hostname']+'.ocp.'+hostvars[item]['domain_name']+'.com', '@'+hostvars[item]['dns_server'])
+  with_items: 
+    - "{{ groups['dns_bastion_group'] }}"
+    - "{{ groups['bootstrap_group'] }}"
+    - "{{ groups['dns_master_group'] }}"
+    - "{{ groups['worker_group'] }}"

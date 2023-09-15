@@ -1,0 +1,45 @@
+---
+
+# Custom - bastion init
+domain_name: olg.online # ocp.[domain_name].com
+dns_server: 10.250.75.134
+cluster_network_conenct: online # online / offline
+master_as_worker: false # true / false
+
+# Custom - bastion install-config.yaml
+openshift_release_image_repository: harbor.cnsdomain.com/openshift4/openshift-release-image
+openshift_operator_image_repository: harbor.cnsdomain.com/openshift4/openshift-4.10.16
+registry_trust_ca: | 
+  -----BEGIN CERTIFICATE-----
+  MIID3zCCAsegAwIBAgIUZY/uDWd85SK1oasCo0ZarQBJUyYwDQYJKoZIhvcNAQEL
+  BQAwfzELMAkGA1UEBhMCVFcxDzANBgNVBAgMBlRhaXdhbjEPMA0GA1UEBwwGVGFp
+  cGVpMREwDwYDVQQKDAhEeW5hc2FmZTEdMBsGA1UECwwUQ2xvdWQgTmF0aXZlIFNl
+  cnZpY2UxHDAaBgNVBAMME09DUCBTZXJ2aWNlIFJvb3QgQ0EwHhcNMjIxMTE2MDg0
+  MTA0WhcNMjUwOTA1MDg0MTA0WjB/MQswCQYDVQQGEwJUVzEPMA0GA1UECAwGVGFp
+  d2FuMQ8wDQYDVQQHDAZUYWlwZWkxETAPBgNVBAoMCER5bmFzYWZlMR0wGwYDVQQL
+  DBRDbG91ZCBOYXRpdmUgU2VydmljZTEcMBoGA1UEAwwTT0NQIFNlcnZpY2UgUm9v
+  dCBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANb5CkvtcZQjrEif
+  hUJG/pnL2Gyk/5KbZw1dLFtaqTtVzSvIvO816eHfMpCwSwG3zSX1IJwaMqJKOfds
+  sD9sAGrKl/zoY93+Mn4Y/zt2XO9xe4WtLsYk2ZFArchplzLWWdRiJ7uE4XFLt+8R
+  Nvj9tHxgAdxcmMyUnVkygJMzx3UVXDMK4kZwIUIPSrAjgjuAzzCd3bRp2uMAzBm/
+  gW0Yqm0YDdYwMkJWMwacq4tM5ulfp6o94DBAcfc1ZoUbK5mIFuMXxxVyRiZaTNGe
+  WUsflvAp+NZ83+BuXSONhKClar1rx8vwjrvQbL3cQDlGIg43JpqCfMq2qNERs4Xd
+  fgF+4UsCAwEAAaNTMFEwHQYDVR0OBBYEFLoT+v0zg7xPVvLZVZ9if8gL+QRtMB8G
+  A1UdIwQYMBaAFLoT+v0zg7xPVvLZVZ9if8gL+QRtMA8GA1UdEwEB/wQFMAMBAf8w
+  DQYJKoZIhvcNAQELBQADggEBAFv7fDZdVcWdvOPCZe+rFCtk7UGWLriXqFnXQZ5C
+  dWkbIDT/fvBbdHHk/7o4rNm61EHOgCDF2T6A6nZagNEe7CrA+HP6YNK5XgAZaNMo
+  RBV0fKtHyItfBdfFvvZbDpZ3ToOp+2aknJUShrgxpUxJMdrDgscp2ZNENu85in4W
+  o/MA2n/86d8k5bNEpPM/xUuKUHle0PqgJxPwv4xuW9zg9TPIbydJrQrdOcF9cet9
+  /VRO0kAkhfB6ZULF5sZcqxIqTQ+9sPwKccgMeAmpI05F4ZG5u2f4xPXMLm5mQHlf
+  ebj8+BrXO7UYheF0Uho0EEgiu8vrvmnodlBMS0CgQTpO5bA=
+  -----END CERTIFICATE-----
+pull_secret: '{"auths": {"harbor.cnsdomain.com": {"auth": "d2lsbGlhbTpBZG1pbjEyMzQ1","email": "williamsh.huang@dynasafe.com.tw"}}}'
+
+# https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp
+openshift_version: 4.11.46
+
+# Custom - node igition
+node_gateway: 10.250.133.253
+
+# default
+ansible_host: "{{ inventory_hostname }}.ocp.{{ domain_name }}.com"

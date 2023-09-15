@@ -1,0 +1,30 @@
+---
+
+- name: Creates node bu folder
+  file:
+    path: /root/node-ignition/bu
+    state: directory
+    recurse: yes
+
+- name: Install jq
+  package: 
+    name: jq
+    state: present
+
+- name: Get api tls
+  shell: cat /var/www/html/master.ign | jq '.ignition.security.tls.certificateAuthorities| .[] | .source'
+  register: api_tls_var
+
+- name: Config each node.bu(ignition yaml format)
+  template:
+    src: node.bu.j2
+    dest: "/root/node-ignition/bu/{{ hostvars[item]['inventory_hostname_short'] }}.bu"
+  vars:
+    group_name: "{{ hostvars[item]['group_names'][0] }}"
+    node_hostname: "{{ hostvars[item]['inventory_hostname_short'] }}"
+    node_ip: "{{ hostvars[item]['ansible_host'] }}"
+    api_tls: "{{ api_tls_var.stdout }}"
+  with_items: 
+    - "{{ groups['bootstrap_group'] }}"
+    - "{{ groups['master_group'] }}"
+    - "{{ groups['worker_group'] }}"
