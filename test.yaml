@@ -1,7 +1,7 @@
 ---
 
 - hosts: bastion  
-  task:
+  tasks:
   - name: Add two IPv4 DNS server addresses
     community.general.nmcli:
       conn_name: ens192
