@@ -1,10 +1,12 @@
 ---
 
-# Custom - bastion init
+# Custom - bastion and node network
+openshift_version: 4.11.46
 domain_name: olg.online # ocp.[domain_name].com
-dns_server: 10.250.75.134
 cluster_network_conenct: online # online / offline
 master_as_worker: false # true / false
+dns_server: 10.250.75.134
+node_gateway: 10.250.133.253
 
 # Custom - bastion install-config.yaml
 openshift_release_image_repository: harbor.cnsdomain.com/openshift4/openshift-release-image
@@ -35,11 +37,5 @@ registry_trust_ca: |
   -----END CERTIFICATE-----
 pull_secret: '{"auths": {"harbor.cnsdomain.com": {"auth": "d2lsbGlhbTpBZG1pbjEyMzQ1","email": "williamsh.huang@dynasafe.com.tw"}}}'
 
-# https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp
-openshift_version: 4.11.46
-
-# Custom - node igition
-node_gateway: 10.250.133.253
-
-# default
-ansible_host: "{{ inventory_hostname }}.ocp.{{ domain_name }}.com"
+# # default
+# ansible_host: "{{ inventory_hostname }}.ocp.{{ domain_name }}.com"

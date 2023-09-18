@@ -1,23 +1,23 @@
 ---
 
-- name: Get ansible python interpreter
-  shell: ansible --version | grep 'python version'| grep -oE '/[^)]+'
-  register: ansible_python_interpreter
-  delegate_to: 127.0.0.1
+# - name: Get ansible python interpreter
+#   shell: ansible --version | grep 'python version'| grep -oE '/[^)]+'
+#   register: ansible_python_interpreter
+#   delegate_to: 127.0.0.1
 
-- name: Get get-pip.py
-  get_url:
-    url: https://bootstrap.pypa.io/pip/3.6/get-pip.py
-    dest: /tmp/get-pip.py
-  delegate_to: 127.0.0.1
+# - name: Get get-pip.py
+#   get_url:
+#     url: https://bootstrap.pypa.io/pip/3.6/get-pip.py
+#     dest: /tmp/get-pip.py
+#   delegate_to: 127.0.0.1
   
-- name: Install pip
-  command: "{{ ansible_python_interpreter.stdout }} /tmp/get-pip.py"
-  delegate_to: 127.0.0.1
+# - name: Install pip
+#   command: "{{ ansible_python_interpreter.stdout }} /tmp/get-pip.py"
+#   delegate_to: 127.0.0.1
 
-- name: Install dnspython
-  command: "{{ ansible_python_interpreter.stdout }} -m pip install dnspython"
-  delegate_to: 127.0.0.1
+# - name: Install dnspython
+#   command: "{{ ansible_python_interpreter.stdout }} -m pip install dnspython"
+#   delegate_to: 127.0.0.1
 
 - name: Check bastion anb node dns setting
   ansible.builtin.debug:
