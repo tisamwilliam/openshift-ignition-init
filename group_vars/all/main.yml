@@ -36,6 +36,3 @@ registry_trust_ca: |
   ebj8+BrXO7UYheF0Uho0EEgiu8vrvmnodlBMS0CgQTpO5bA=
   -----END CERTIFICATE-----
 pull_secret: '{"auths": {"harbor.cnsdomain.com": {"auth": "d2lsbGlhbTpBZG1pbjEyMzQ1","email": "williamsh.huang@dynasafe.com.tw"}}}'
-
-# # default
-# ansible_host: "{{ inventory_hostname }}.ocp.{{ domain_name }}.com"
