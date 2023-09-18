@@ -1,7 +1,7 @@
 ---
 
 - name: Add two IPv4 DNS server addresses
-  community.general.nmcli:
+  nmcli:
     conn_name: ens192
     type: ethernet
     dns4:
