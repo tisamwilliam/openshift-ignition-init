@@ -3,9 +3,9 @@ version: 1.4.0
 ignition:
   config:
     merge:
-      - source:{% if group_name == "bootstrap_group" %} http://bastion.ocp.{{ domain_name }}.com:8080/bootstrap.ign
+      - source:{% if group_name == "dns_bootstrap_group" %} http://bastion.ocp.{{ domain_name }}.com:8080/bootstrap.ign
 {% elif group_name == "dns_master_group" %} https://api-int.ocp.{{ domain_name }}.com:22623/config/master
-{% elif group_name == "worker_group" %} https://api-int.ocp.{{ domain_name }}.com:22623/config/worker 
+{% elif group_name == "dns_worker_group" %} https://api-int.ocp.{{ domain_name }}.com:22623/config/worker 
 {% endif %}
   security:
     tls:
