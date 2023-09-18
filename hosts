@@ -24,11 +24,16 @@ dns_api_group:
 
 # Bootstrap
 ###########################################
+dns_bootstrap_group:
+  children:
+    bootstrap_group:
+  vars:
+    bootstrap_node: 10.250.133.47
+
 bootstrap_group:
   hosts:
     bootstrap:
-      ansible_host: 10.250.135.26
-
+      ansible_host: "{{ bootstrap_node }}"
 
 # Master
 ###########################################
@@ -37,9 +42,9 @@ dns_master_group:
     master_group:
     dns_etcd_group:
   vars:
-    master_node0: 10.250.135.21
-    master_node1: 10.250.135.22
-    master_node2: 10.250.135.23
+    master_node0: 10.250.133.41
+    master_node1: 10.250.133.42
+    master_node2: 10.250.133.43
 
 master_group:
   hosts:
@@ -62,9 +67,19 @@ dns_etcd_group:
 
 # Worker
 ###########################################
+dns_worker_group:
+  children:
+    worker_group:
+  vars:
+    worker_node0: 10.250.133.44
+    worker_node1: 10.250.133.45
+    worker_node2: 10.250.133.46
+
 worker_group:
   hosts:
-    compute0:
-      ansible_host: 10.250.135.24
-    compute1:
-      ansible_host: 10.250.135.25
+    worker0:
+      ansible_host: "{{ worker_node0 }}"
+    worker1:
+      ansible_host: "{{ worker_node1 }}"
+    worker2:
+      ansible_host: "{{ worker_node2 }}"

@@ -27,6 +27,6 @@
     - hostvars[item]['ansible_host'] not in lookup('community.general.dig', hostvars[item]['inventory_hostname']+'.ocp.'+hostvars[item]['domain_name']+'.com', '@'+hostvars[item]['dns_server'])
   with_items: 
     - "{{ groups['dns_bastion_group'] }}"
-    - "{{ groups['bootstrap_group'] }}"
+    - "{{ groups['dns_bootstrap_group'] }}"
     - "{{ groups['dns_master_group'] }}"
-    - "{{ groups['worker_group'] }}"
+    - "{{ groups['dns_worker_group'] }}"
