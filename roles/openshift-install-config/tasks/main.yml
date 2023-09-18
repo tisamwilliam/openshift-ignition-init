@@ -3,7 +3,7 @@
 - name: Install oc and kubectl command tool - set variable
   set_fact: 
     need_decompress: true
-    download_url: "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz"
+    download_url: "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/{{ openshift_version }}/openshift-client-linux-{{ openshift_version }}.tar.gz"
 
 - name: Install oc and kubectl command tool
   include_tasks: install_from_web.yml
