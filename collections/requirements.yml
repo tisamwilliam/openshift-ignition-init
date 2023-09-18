@@ -1,5 +1,5 @@
 ---
 
 collections:
-- community.general.nmcli
-- community.general.dig
+- nmcli
+- dig
