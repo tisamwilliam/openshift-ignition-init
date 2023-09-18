@@ -28,7 +28,7 @@ dns_bootstrap_group:
   children:
     bootstrap_group:
   vars:
-    bootstrap_node: 10.250.133.47
+    bootstrap_node: 10.250.133.40
 
 bootstrap_group:
   hosts:
@@ -71,15 +71,15 @@ dns_worker_group:
   children:
     worker_group:
   vars:
-    worker_node0: 10.250.133.44
-    worker_node1: 10.250.133.45
-    worker_node2: 10.250.133.46
+    compute0_node: 10.250.133.44
+    compute1_node: 10.250.133.45
+    compute2_node: 10.250.133.46
 
 worker_group:
   hosts:
-    worker0:
-      ansible_host: "{{ worker_node0 }}"
-    worker1:
-      ansible_host: "{{ worker_node1 }}"
-    worker2:
-      ansible_host: "{{ worker_node2 }}"
+    compute0:
+      ansible_host: "{{ compute0_node }}"
+    compute1:
+      ansible_host: "{{ compute1_node }}"
+    compute2:
+      ansible_host: "{{ compute2_node }}"

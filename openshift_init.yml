@@ -2,5 +2,5 @@
 
 - hosts: bastion  
   roles:
-    # - { role: bastion-init }
+    - { role: bastion-init }
     - { role: openshift-install-config }
